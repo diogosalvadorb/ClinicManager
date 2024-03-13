@@ -5,9 +5,9 @@ namespace ClinicManager.Core.Repositories
     public interface IServicoRepository
     {
         Task<IEnumerable<Servico>> GetAll();
-        Task<Servico> GetById(int id);
+        Task<Servico> GetById(Guid id);
         Task<Servico> AddAsync(Servico servico);
         Task UpdateAsync(Servico servico);
-        Task RemoverAsync(int id);
+        Task RemoverAsync(Guid id);
     }
 }

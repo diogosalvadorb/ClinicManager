@@ -1,33 +1,59 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
+using ClinicManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Repositories
 {
     public class AtendimentoRepository : IAtendimentoRepository
     {
-        public Task<IEnumerable<Atendimento>> GetAll()
+        private readonly ClinicManagerDbContext _context;
+        public AtendimentoRepository(ClinicManagerDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Atendimento> GetById(int id)
+        public async Task<IEnumerable<Atendimento>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Atendimentos.ToListAsync();
         }
 
-        public Task<Atendimento> AddAsync(Atendimento atendimento)
+        public async Task<Atendimento> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Atendimentos.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task UpdateAsync(Atendimento atendimento)
+        public async Task<Atendimento> AddAsync(Atendimento atendimento)
         {
-            throw new NotImplementedException();
+            await _context.Atendimentos.AddAsync(atendimento);
+            await _context.SaveChangesAsync();
+            return atendimento;
         }
 
-        public Task RemoverAsync(int id)
+        public async Task UpdateAsync(Atendimento atendimento)
         {
-            throw new NotImplementedException();
+            var retornoAtendimento = await _context.Atendimentos.FindAsync(atendimento.Id);
+
+            if (retornoAtendimento == null)
+            {
+                throw new ArgumentException($"Serviço não encontrado");
+            }
+
+            _context.Atendimentos.Update(atendimento);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoverAsync(Guid id)
+        {
+            var retornoAtendimento = await _context.Atendimentos.FindAsync(id);
+
+            if (retornoAtendimento == null)
+            {
+                throw new ArgumentException($"Serviço não encontrado");
+            }
+
+            _context.Atendimentos.Remove(retornoAtendimento);
+            await _context.SaveChangesAsync();
         }
     }
 }

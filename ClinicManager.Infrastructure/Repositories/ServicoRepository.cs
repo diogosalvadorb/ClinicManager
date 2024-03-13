@@ -1,33 +1,59 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
+using ClinicManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Repositories
 {
     public class ServicoRepository : IServicoRepository
     {
-        public Task<IEnumerable<Servico>> GetAll()
+        private readonly ClinicManagerDbContext _context;
+        public ServicoRepository(ClinicManagerDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Servico> GetById(int id)
+        public async Task<IEnumerable<Servico>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Servicos.ToListAsync();
         }
 
-        public Task<Servico> AddAsync(Servico servico)
+        public async Task<Servico> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Servicos.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task UpdateAsync(Servico servico)
+        public async Task<Servico> AddAsync(Servico servico)
         {
-            throw new NotImplementedException();
+            await _context.Servicos.AddAsync(servico);
+            await _context.SaveChangesAsync();
+            return servico;
         }
 
-        public Task RemoverAsync(int id)
+        public async Task UpdateAsync(Servico servico)
         {
-            throw new NotImplementedException();
+            var retornoServico = await _context.Medicos.FindAsync(servico.Id);
+
+            if (retornoServico == null)
+            {
+                throw new ArgumentException($"Serviço não encontrado");
+            }
+
+            _context.Servicos.Update(servico);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoverAsync(Guid id)
+        {
+            var retornoServico = await _context.Servicos.FindAsync(id);
+
+            if (retornoServico == null)
+            {
+                throw new ArgumentException($"Serviço não encontrado");
+            }
+
+            _context.Servicos.Remove(retornoServico);
+            await _context.SaveChangesAsync();
         }
     }
 }
