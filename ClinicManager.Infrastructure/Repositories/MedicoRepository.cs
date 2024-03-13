@@ -1,33 +1,59 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
+using ClinicManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Repositories
 {
     public class MedicoRepository : IMedicoRepository
     {
-        public Task<IEnumerable<Medico>> GetAll()
+        private readonly ClinicManagerDbContext _context;
+        public MedicoRepository(ClinicManagerDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Medico> GetById(int id)
+        public async Task<IEnumerable<Medico>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Medicos.ToListAsync();
         }
 
-        public Task<Medico> AddAsync(Medico medico)
+        public async Task<Medico> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Medicos.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task UpdateAsync(Medico medico)
+        public async Task<Medico> AddAsync(Medico medico)
         {
-            throw new NotImplementedException();
+            await _context.Medicos.AddAsync(medico);
+            await _context.SaveChangesAsync();
+            return medico;
         }
 
-        public Task RemoverAsync(int id)
+        public async Task UpdateAsync(Medico medico)
         {
-            throw new NotImplementedException();
+            var retornoMedico = _context.Medicos.FindAsync(medico.Id);
+
+            if (retornoMedico == null)
+            {
+                throw new ArgumentException($"Médico não encontrado");
+            }
+
+            _context.Medicos.Update(medico);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoverAsync(Guid id)
+        {
+            var retornoMedico = await _context.Medicos.FindAsync(id);
+
+            if (retornoMedico == null)
+            {
+                throw new ArgumentException($"Médico não encontrado");
+            }
+
+            _context.Medicos.Remove(retornoMedico);
+            await _context.SaveChangesAsync();
         }
     }
 }

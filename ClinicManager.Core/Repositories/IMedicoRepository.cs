@@ -5,9 +5,9 @@ namespace ClinicManager.Core.Repositories
     public interface IMedicoRepository
     {
         Task<IEnumerable<Medico>> GetAll();
-        Task<Medico> GetById(int id);
+        Task<Medico> GetById(Guid id);
         Task<Medico> AddAsync(Medico medico);
         Task UpdateAsync(Medico medico);
-        Task RemoverAsync(int id);
+        Task RemoverAsync(Guid id);
     }
 }
