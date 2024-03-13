@@ -1,43 +1,69 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
+using ClinicManager.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
-        public Task<IEnumerable<Paciente>> GetAll()
+        private readonly ClinicManagerDbContext _context;
+        public PacienteRepository(ClinicManagerDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<Paciente> GetById(int id)
+        public async Task<IEnumerable<Paciente>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _context.Pacientes.ToListAsync();
         }
 
-        public Task<Paciente> GetByCPF(string name)
+        public async Task<Paciente> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Pacientes.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task<Paciente> GetByTelefone(string telefone)
+        public async Task<Paciente> GetByCPF(string cpf)
         {
-            throw new NotImplementedException();
+            return await _context.Pacientes.SingleOrDefaultAsync(x => x.CPF == cpf);
         }
 
-        public Task<Paciente> AddAsync(Paciente paciente)
+        public async Task<Paciente> GetByTelefone(string telefone)
         {
-            throw new NotImplementedException();
+            return await _context.Pacientes.SingleOrDefaultAsync(x => x.Telefone == telefone);
         }
 
-        public Task UpdateAsync(Paciente paciente)
+        public async Task<Paciente> AddAsync(Paciente paciente)
         {
-            throw new NotImplementedException();
+            await _context.Pacientes.AddAsync(paciente);
+            await _context.SaveChangesAsync();
+            return paciente;
         }
 
-        public Task RemoverAsync(int id)
+        public async Task UpdateAsync(Paciente paciente)
         {
-            throw new NotImplementedException();
+            var retornoPaciente = await _context.Pacientes.FindAsync(paciente.Id);
+
+            if (retornoPaciente == null) 
+            {
+                throw new ArgumentException($"Paciente não encontrado");
+            }
+
+            _context.Pacientes.Update(paciente);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoverAsync(Guid id)
+        {
+            var retornoPaciente = await _context.Pacientes.FindAsync(id);
+
+            if (retornoPaciente == null)
+            {
+                throw new ArgumentException($"Paciente não encontrado");
+            }
+
+            _context.Pacientes.Remove(retornoPaciente);
+            await _context.SaveChangesAsync();
         }
     }
 }
