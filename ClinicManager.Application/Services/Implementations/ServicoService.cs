@@ -46,7 +46,7 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var addServico = await _servicoRepository.AddAsync(servico);
+                var adicionarServico = await _servicoRepository.AddAsync(servico);
                 return null;
             }
             catch (Exception ex)
@@ -59,8 +59,8 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var retornoServico = await _servicoRepository.GetById(servico.Id);
-                if (retornoServico == null) throw new Exception("Serviço para atualizar não encontrado.");
+                var buscaServico = await _servicoRepository.GetById(servico.Id);
+                if (buscaServico == null) throw new Exception("Serviço para atualizar não encontrado.");
 
                 await _servicoRepository.UpdateAsync(servico);
             }
