@@ -3,7 +3,7 @@ using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
@@ -44,7 +44,7 @@ namespace ClinicManager.Infrastructure.Repositories
         {
             var retornoPaciente = await _context.Pacientes.FindAsync(paciente.Id);
 
-            if (retornoPaciente == null) 
+            if (retornoPaciente == null)
             {
                 throw new ArgumentException($"Paciente não encontrado");
             }

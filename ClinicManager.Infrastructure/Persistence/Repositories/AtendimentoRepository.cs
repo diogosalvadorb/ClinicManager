@@ -3,7 +3,7 @@ using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class AtendimentoRepository : IAtendimentoRepository
     {
