@@ -6,17 +6,17 @@ namespace ClinicManager.Application.Services.Implementations
 {
     public class MedicoService : IMedicoService
     {
-        private readonly IMedicoService _medicoService;
-        public MedicoService(IMedicoService medicoService)
+        private readonly IMedicoRepository _medicoRepository;
+        public MedicoService(IMedicoRepository medicoRepository)
         {
-            _medicoService = medicoService;
+            _medicoRepository = medicoRepository;
         }
 
         public Task<IEnumerable<Medico>> GetAll()
         {
             try
             {
-                var medicos = _medicoService.GetAll();
+                var medicos = _medicoRepository.GetAll();
                 if (medicos == null) return null;
 
                 return medicos;
@@ -31,7 +31,7 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var medico = _medicoService.GetById(id);
+                var medico = _medicoRepository.GetById(id);
                 if (medico == null) return null; 
                 
                 return medico;
@@ -46,7 +46,7 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var adicionarMedico = await _medicoService.AddAsync(medico);
+                var adicionarMedico = await _medicoRepository.AddAsync(medico);
                 return null;
             }
             catch (Exception ex)
@@ -59,10 +59,10 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var buscaMedico = await _medicoService.GetById(medico.Id);
+                var buscaMedico = await _medicoRepository.GetById(medico.Id);
                 if (buscaMedico == null) throw new Exception("Médico para atualizar não encontrado.");
 
-                await _medicoService.UpdateAsync(medico);
+                await _medicoRepository.UpdateAsync(medico);
             }
             catch (Exception ex)
             {
@@ -74,10 +74,10 @@ namespace ClinicManager.Application.Services.Implementations
         {
             try
             {
-                var medico = await _medicoService.GetById(id);
+                var medico = await _medicoRepository.GetById(id);
                 if (medico == null) throw new Exception("Médico para remover não encontrado.");
 
-                await _medicoService.RemoverAsync(medico.Id);
+                await _medicoRepository.RemoverAsync(medico.Id);
             }
             catch (Exception ex)
             {
