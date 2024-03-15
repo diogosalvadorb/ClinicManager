@@ -20,7 +20,11 @@ namespace ClinicManager.Infrastructure.Repositories
 
         public async Task<Atendimento> GetById(Guid id)
         {
-            return await _context.Atendimentos.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Atendimentos
+                .Include(m => m.Medico)
+                .Include(p => p.Paciente)
+                .Include(s => s.Servico)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Atendimento> AddAsync(Atendimento atendimento)

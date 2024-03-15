@@ -7,7 +7,7 @@ namespace ClinicManager.Core.Entities
         public Guid IdPaciente { get; set; }
         public Paciente? Paciente { get; set; }
         public Guid IdServico { get; set; }
-        public Paciente? Servico { get; set; }
+        public Servico? Servico { get; set; }
         public Guid IdMedico { get; set; }
         public Medico? Medico { get; set; }
         public string Convenio { get; set; } = string.Empty;
