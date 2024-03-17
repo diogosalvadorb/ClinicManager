@@ -57,17 +57,12 @@ namespace ClinicManager.Application.Services.Implementations
 
         public async Task UpdateAsync(Medico medico)
         {
-            try
-            {
-                var buscaMedico = await _medicoRepository.GetById(medico.Id);
-                if (buscaMedico == null) throw new Exception("Médico para atualizar não encontrado.");
+            var buscaMedico = await _medicoRepository.GetById(medico.Id);
+            if (buscaMedico == null) throw new Exception("Médico para atualizar não encontrado.");
 
-                await _medicoRepository.UpdateAsync(medico);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+            medico.Id = buscaMedico.Id;
+
+            await _medicoRepository.UpdateAsync(medico);
         }
 
         public async Task RemoverAsync(Guid id)
