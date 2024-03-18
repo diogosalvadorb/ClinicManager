@@ -62,6 +62,8 @@ namespace ClinicManager.Application.Services.Implementations
                 var buscaMedico = await _medicoRepository.GetById(medico.Id);
                 if (buscaMedico == null) throw new Exception("Médico para atualizar não encontrado.");
 
+                medico.Id = buscaMedico.Id;
+
                 await _medicoRepository.UpdateAsync(medico);
             }
             catch (Exception ex)

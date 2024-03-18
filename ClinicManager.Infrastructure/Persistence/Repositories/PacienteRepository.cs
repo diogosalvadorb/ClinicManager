@@ -3,7 +3,7 @@ using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class PacienteRepository : IPacienteRepository
     {
@@ -43,13 +43,10 @@ namespace ClinicManager.Infrastructure.Repositories
         public async Task UpdateAsync(Paciente paciente)
         {
             var retornoPaciente = await _context.Pacientes.FindAsync(paciente.Id);
+            if (retornoPaciente == null)
+                throw new ArgumentException($"Paciente para atualizar não encontrado");
 
-            if (retornoPaciente == null) 
-            {
-                throw new ArgumentException($"Paciente não encontrado");
-            }
-
-            _context.Pacientes.Update(paciente);
+            _context.Entry(retornoPaciente).CurrentValues.SetValues(paciente);
             await _context.SaveChangesAsync();
         }
 

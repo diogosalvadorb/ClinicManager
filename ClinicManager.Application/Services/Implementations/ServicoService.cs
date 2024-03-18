@@ -62,6 +62,8 @@ namespace ClinicManager.Application.Services.Implementations
                 var buscaServico = await _servicoRepository.GetById(servico.Id);
                 if (buscaServico == null) throw new Exception("Serviço para atualizar não encontrado.");
 
+                servico.Id = buscaServico.Id;
+
                 await _servicoRepository.UpdateAsync(servico);
             }
             catch (Exception ex)

@@ -1,9 +1,8 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
-using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class MedicoRepository : IMedicoRepository
     {
@@ -32,14 +31,12 @@ namespace ClinicManager.Infrastructure.Repositories
 
         public async Task UpdateAsync(Medico medico)
         {
-            var retornoMedico =  await _context.Medicos.FindAsync(medico.Id);
-
+            var retornoMedico = await _context.Medicos.FindAsync(medico.Id);
             if (retornoMedico == null)
-            {
-                throw new ArgumentException($"Médico não encontrado");
-            }
+                throw new ArgumentException("Médico para atualizar não encontrado.");
 
-            _context.Medicos.Update(medico);
+            _context.Entry(retornoMedico).CurrentValues.SetValues(medico);
+
             await _context.SaveChangesAsync();
         }
 

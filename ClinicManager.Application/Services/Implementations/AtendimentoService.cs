@@ -62,6 +62,8 @@ namespace ClinicManager.Application.Services.Implementations
                 var buscarAtendimento = await _atendimentoRepository.GetById(atendimento.Id);
                 if (buscarAtendimento == null) throw new Exception("Atendimento para atualizar não encontrado.");
 
+                atendimento.Id = buscarAtendimento.Id;
+
                 await _atendimentoRepository.UpdateAsync(atendimento);
             }
             catch (Exception ex)

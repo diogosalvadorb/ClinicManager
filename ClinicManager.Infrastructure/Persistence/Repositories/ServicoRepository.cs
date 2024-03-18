@@ -3,7 +3,7 @@ using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class ServicoRepository : IServicoRepository
     {
@@ -35,11 +35,9 @@ namespace ClinicManager.Infrastructure.Repositories
             var retornoServico = await _context.Medicos.FindAsync(servico.Id);
 
             if (retornoServico == null)
-            {
                 throw new ArgumentException($"Serviço não encontrado");
-            }
 
-            _context.Servicos.Update(servico);
+            _context.Entry(retornoServico).CurrentValues.SetValues(servico);
             await _context.SaveChangesAsync();
         }
 

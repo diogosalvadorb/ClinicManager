@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ClinicManager.Infrastructure.Migrations
+namespace ClinicManager.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ClinicManagerDbContext))]
     partial class ClinicManagerDbContextModelSnapshot : ModelSnapshot
@@ -201,7 +201,7 @@ namespace ClinicManager.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("ClinicManager.Core.Entities.Paciente", "Servico")
+                    b.HasOne("ClinicManager.Core.Entities.Servico", "Servico")
                         .WithOne()
                         .HasForeignKey("ClinicManager.Core.Entities.Atendimento", "IdServico")
                         .OnDelete(DeleteBehavior.Restrict)

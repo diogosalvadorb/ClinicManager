@@ -3,7 +3,7 @@ using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
-namespace ClinicManager.Infrastructure.Repositories
+namespace ClinicManager.Infrastructure.Persistence.Repositories
 {
     public class AtendimentoRepository : IAtendimentoRepository
     {
@@ -43,7 +43,7 @@ namespace ClinicManager.Infrastructure.Repositories
                 throw new ArgumentException($"Serviço não encontrado");
             }
 
-            _context.Atendimentos.Update(atendimento);
+            _context.Entry(retornoAtendimento).CurrentValues.SetValues(atendimento);
             await _context.SaveChangesAsync();
         }
 
