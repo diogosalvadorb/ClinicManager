@@ -43,7 +43,7 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
                 throw new ArgumentException($"Serviço não encontrado");
             }
 
-            _context.Atendimentos.Update(atendimento);
+            _context.Entry(retornoAtendimento).CurrentValues.SetValues(atendimento);
             await _context.SaveChangesAsync();
         }
 

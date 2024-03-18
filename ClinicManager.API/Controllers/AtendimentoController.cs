@@ -7,12 +7,12 @@ namespace ClinicManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MedicosController : ControllerBase
+    public class AtendimentoController : ControllerBase
     {
-        private readonly IMedicoService _medicoService;
-        public MedicosController(IMedicoService medicoService)
+        private readonly IAtendimentoService _atendimentoService;
+        public AtendimentoController(IAtendimentoService atendimentoService)
         {
-            _medicoService = medicoService;
+            _atendimentoService = atendimentoService;
         }
 
         [HttpGet]
@@ -20,13 +20,13 @@ namespace ClinicManager.API.Controllers
         {
             try
             {
-                var medicos = await _medicoService.GetAll();
-                return Ok(medicos);
+                var atendimentos = await _atendimentoService.GetAll();
+                return Ok(atendimentos);
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, 
-                    $"Erro ao tentar buscar Médicos. Erro: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar buscar Atendimentos. Erro: {ex.Message}");
             }
         }
 
@@ -35,57 +35,57 @@ namespace ClinicManager.API.Controllers
         {
             try
             {
-                var medico = await _medicoService.GetById(id);
-                if (medico == null) return NotFound();
+                var atendimento = await _atendimentoService.GetById(id);
+                if (atendimento == null) return NotFound();
 
-                return Ok(medico);
+                return Ok(atendimento);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar buscar Médico. Erro: {ex.Message}");
+                    $"Erro ao tentar buscar Atendimento. Erro: {ex.Message}");
             }
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Medico medico)
+        public IActionResult Post([FromBody] Atendimento atendimento)
         {
             try
             {
-                if (medico == null)
+                if (atendimento == null)
                 {
                     return BadRequest();
                 }
 
-                var idNovoMedico = _medicoService.AddAsync(medico);
+                var idNovoAtendimento = _atendimentoService.AddAsync(atendimento);
 
-                return CreatedAtAction(nameof(GetById), new { id = idNovoMedico }, medico);
+                return CreatedAtAction(nameof(GetById), new { id = idNovoAtendimento }, atendimento);
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar adicionar Médico. Erro: {ex.Message}");
+                    $"Erro ao tentar adicionar Atendimento. Erro: {ex.Message}");
             }
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Medico medico)
+        public async Task<IActionResult> Put(Guid id, [FromBody] Atendimento atendimento)
         {
             try
             {
-                if (medico == null || medico.Id != id)
+                if (atendimento == null || atendimento.Id != id)
                 {
                     return BadRequest();
                 }
 
-                await _medicoService.UpdateAsync(medico);
+                await _atendimentoService.UpdateAsync(atendimento);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar atualizar Médico. Erro: {ex.Message}");
+                    $"Erro ao tentar atualizar Atendimento. Erro: {ex.Message}");
             }
         }
 
@@ -95,14 +95,14 @@ namespace ClinicManager.API.Controllers
         {
             try
             {
-                await _medicoService.RemoverAsync(id);
+                await _atendimentoService.RemoverAsync(id);
 
                 return NoContent();
             }
             catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                    $"Erro ao tentar remover Médico. Erro: {ex.Message}");
+                    $"Erro ao tentar remover Atendimento. Erro: {ex.Message}");
             }
         }
     }
