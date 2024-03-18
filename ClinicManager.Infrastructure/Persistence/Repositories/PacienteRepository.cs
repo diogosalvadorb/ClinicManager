@@ -43,13 +43,10 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         public async Task UpdateAsync(Paciente paciente)
         {
             var retornoPaciente = await _context.Pacientes.FindAsync(paciente.Id);
-
             if (retornoPaciente == null)
-            {
-                throw new ArgumentException($"Paciente não encontrado");
-            }
+                throw new ArgumentException($"Paciente para atualizar não encontrado");
 
-            _context.Pacientes.Update(paciente);
+            _context.Entry(retornoPaciente).CurrentValues.SetValues(paciente);
             await _context.SaveChangesAsync();
         }
 

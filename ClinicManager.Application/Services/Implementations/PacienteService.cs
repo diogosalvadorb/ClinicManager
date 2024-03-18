@@ -73,11 +73,11 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public Task<Paciente> AddAsync(Paciente paciente)
+        public async Task<Paciente> AddAsync(Paciente paciente)
         {
             try
             {
-                var adicionarPaciente = _pacienteRepository.AddAsync(paciente);
+                var adicionarPaciente = await _pacienteRepository.AddAsync(paciente);
                 return null;
             }
             catch (Exception ex)
@@ -92,6 +92,8 @@ namespace ClinicManager.Application.Services.Implementations
             {
                 var buscaPaciente = await _pacienteRepository.GetById(paciente.Id);
                 if (buscaPaciente == null) throw new Exception("Paciente para atualizar não encontrado.");
+
+                paciente.Id = buscaPaciente.Id;
 
                 await _pacienteRepository.UpdateAsync(paciente);
             }
