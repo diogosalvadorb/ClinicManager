@@ -1,15 +1,16 @@
-﻿using ClinicManager.Core.Entities;
+﻿using ClinicManager.Application.DTOs;
+using ClinicManager.Core.Entities;
 
 namespace ClinicManager.Application.Services.Interfaces
 {
     public interface IPacienteService
     {
-        Task<IEnumerable<Paciente>> GetAll();
-        Task<Paciente> GetById(Guid id);
-        Task<Paciente> GetByCPF(string cpf);
-        Task<Paciente> GetByTelefone(string telefone);
-        Task<Paciente> AddAsync(Paciente paciente);
-        Task UpdateAsync(Paciente paciente);
+        Task<IEnumerable<PacienteDTO>> GetAll();
+        Task<PacienteDTO> GetById(Guid id);
+        Task<PacienteDTO> GetByCPF(string cpf);
+        Task<PacienteDTO> GetByTelefone(string telefone);
+        Task<PacienteDTO> AddAsync(PacienteDTO paciente);
+        Task<PacienteUpdateDTO> UpdateAsync(Guid id, PacienteUpdateDTO paciente);
         Task RemoverAsync(Guid id);
     }
 }

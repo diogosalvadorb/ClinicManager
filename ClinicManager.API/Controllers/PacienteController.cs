@@ -1,4 +1,5 @@
-﻿using ClinicManager.Application.Services.Implementations;
+﻿using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Implementations;
 using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using Microsoft.AspNetCore.Http;
@@ -79,7 +80,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Paciente paciente)
+        public IActionResult Post([FromBody] PacienteDTO paciente)
         {
             try
             {
@@ -100,16 +101,16 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id, [FromBody] Paciente paciente)
+        public async Task<IActionResult> Put(Guid id, [FromBody] PacienteUpdateDTO paciente)
         {
             try
             {
-                if (paciente == null || paciente.Id != id)
+                if (paciente == null)
                 {
                     return BadRequest();
                 }
 
-                await _pacienteService.UpdateAsync(paciente);
+                await _pacienteService.UpdateAsync(id, paciente);
 
                 return NoContent();
             }

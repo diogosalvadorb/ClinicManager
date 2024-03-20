@@ -1,4 +1,6 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using AutoMapper;
+using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
 
@@ -7,19 +9,24 @@ namespace ClinicManager.Application.Services.Implementations
     public class ServicoService : IServicoService
     {
         private readonly IServicoRepository _servicoRepository;
-        public ServicoService(IServicoRepository servicoRepository)
+        private readonly IMapper _mapper;
+        public ServicoService(IServicoRepository servicoRepository,
+                              IMapper mapper)
         {
             _servicoRepository = servicoRepository;
+            _mapper = mapper;
         }
 
-        public Task<IEnumerable<Servico>> GetAll()
+        public async Task<IEnumerable<ServicoDTO>> GetAll()
         {
             try
             {
-                var servicos = _servicoRepository.GetAll();
+                var servicos = await _servicoRepository.GetAll();
                 if (servicos == null) return null;
 
-                return servicos;
+                var resultado = _mapper.Map<IEnumerable<ServicoDTO>>(servicos);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -27,14 +34,16 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public Task<Servico> GetById(Guid id)
+        public async Task<ServicoDTO> GetById(Guid id)
         {
             try
             {
-                var servico = _servicoRepository.GetById(id);
+                var servico = await _servicoRepository.GetById(id);
                 if (servico == null) return null;
 
-                return servico;
+                var resultado = _mapper.Map<ServicoDTO>(servico);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -42,11 +51,13 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task<Servico> AddAsync(Servico servico)
+        public async Task<ServicoDTO> AddAsync(ServicoDTO servico)
         {
             try
             {
-                var adicionarServico = await _servicoRepository.AddAsync(servico);
+                var adicionarServico = _mapper.Map<Servico>(servico);
+                var adicionarServicoDTO = await _servicoRepository.AddAsync(adicionarServico);
+
                 return null;
             }
             catch (Exception ex)
@@ -55,16 +66,18 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task UpdateAsync(Servico servico)
+        public async Task<ServicoUpdateDTO> UpdateAsync(Guid id, ServicoUpdateDTO servico)
         {
             try
             {
-                var buscaServico = await _servicoRepository.GetById(servico.Id);
+                var buscaServico = await _servicoRepository.GetById(id);
                 if (buscaServico == null) throw new Exception("Serviço para atualizar não encontrado.");
 
-                servico.Id = buscaServico.Id;
+                _mapper.Map(servico, buscaServico);
 
-                await _servicoRepository.UpdateAsync(servico);
+                await _servicoRepository.UpdateAsync(buscaServico);
+
+                return _mapper.Map<ServicoUpdateDTO>(buscaServico);
             }
             catch (Exception ex)
             {

@@ -1,4 +1,6 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using AutoMapper;
+using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
 
@@ -7,19 +9,24 @@ namespace ClinicManager.Application.Services.Implementations
     public class AtendimentoService : IAtendimentoService
     {
         private readonly IAtendimentoRepository _atendimentoRepository;
-        public AtendimentoService(IAtendimentoRepository atendimentoRepository)
+        private readonly IMapper _mapper;
+        public AtendimentoService(IAtendimentoRepository atendimentoRepository,
+                                  IMapper mapper)
         {
             _atendimentoRepository = atendimentoRepository;
+            _mapper = mapper;
         }
 
-        public Task<IEnumerable<Atendimento>> GetAll()
+        public async Task<IEnumerable<AtendimentoDTO>> GetAll()
         {
             try
             {
-                var atendimentos = _atendimentoRepository.GetAll();
-                if (atendimentos == null) return null; 
-                
-                return atendimentos;
+                var atendimentos = await _atendimentoRepository.GetAll();
+                if (atendimentos == null) return null;
+
+                var resultado = _mapper.Map<IEnumerable<AtendimentoDTO>>(atendimentos);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -27,14 +34,16 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public Task<Atendimento> GetById(Guid id)
+        public async Task<AtendimentoDTO> GetById(Guid id)
         {
             try
             {
-                var atendimento = _atendimentoRepository.GetById(id);
+                var atendimento = await _atendimentoRepository.GetById(id);
                 if (atendimento == null) return null;
 
-                return atendimento;
+                var resultado = _mapper.Map<AtendimentoDTO>(atendimento);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -42,11 +51,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public Task<Atendimento> AddAsync(Atendimento atendimento)
+        public async Task<AtendimentoDTO> AddAsync(AtendimentoDTO atendimento)
         {
             try
             {
-                var adicionarAtendimento = _atendimentoRepository.AddAsync(atendimento);
+                var adicionarAtendimento = _mapper.Map<Atendimento>(atendimento);
+
+                var adicionarAtendimentoDTO = await _atendimentoRepository.AddAsync(adicionarAtendimento);
+
                 return null;
             }
             catch (Exception ex)
@@ -55,16 +67,18 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task UpdateAsync(Atendimento atendimento)
+        public async Task<AtendimentoUpdateDTO> UpdateAsync(Guid id, AtendimentoUpdateDTO atendimento)
         {
             try
             {
-                var buscarAtendimento = await _atendimentoRepository.GetById(atendimento.Id);
-                if (buscarAtendimento == null) throw new Exception("Atendimento para atualizar não encontrado.");
+                var buscaAtendimento = await _atendimentoRepository.GetById(id);
+                if (buscaAtendimento == null) throw new Exception("Atendimento para atualizar não encontrado.");
 
-                atendimento.Id = buscarAtendimento.Id;
+                _mapper.Map(atendimento, buscaAtendimento);
 
-                await _atendimentoRepository.UpdateAsync(atendimento);
+                await _atendimentoRepository.UpdateAsync(buscaAtendimento);
+
+                return _mapper.Map<AtendimentoUpdateDTO>(buscaAtendimento);
             }
             catch (Exception ex)
             {

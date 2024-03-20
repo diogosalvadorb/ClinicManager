@@ -1,5 +1,6 @@
 using ClinicManager.Application.Services.Implementations;
 using ClinicManager.Application.Services.Interfaces;
+using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using ClinicManager.Infrastructure.Persistence.Repositories;
@@ -16,6 +17,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddScoped<IAtendimentoService, AtendimentoService>();
 builder.Services.AddScoped<IMedicoService, MedicoService>();
