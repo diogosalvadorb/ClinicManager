@@ -1,4 +1,6 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using AutoMapper;
+using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
 
@@ -7,19 +9,23 @@ namespace ClinicManager.Application.Services.Implementations
     public class MedicoService : IMedicoService
     {
         private readonly IMedicoRepository _medicoRepository;
-        public MedicoService(IMedicoRepository medicoRepository)
+        private readonly IMapper _mapper;
+        public MedicoService(IMedicoRepository medicoRepository, IMapper mapper)
         {
             _medicoRepository = medicoRepository;
+            _mapper = mapper;
         }
 
-        public Task<IEnumerable<Medico>> GetAll()
+        public async Task<IEnumerable<MedicoDTO>> GetAll()
         {
             try
             {
-                var medicos = _medicoRepository.GetAll();
+                var medicos = await _medicoRepository.GetAll();
                 if (medicos == null) return null;
 
-                return medicos;
+                var resultado = _mapper.Map<IEnumerable<MedicoDTO>>(medicos);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -27,14 +33,16 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public Task<Medico> GetById(Guid id)
+        public async Task<MedicoDTO> GetById(Guid id)
         {
             try
             {
-                var medico = _medicoRepository.GetById(id);
-                if (medico == null) return null; 
-                
-                return medico;
+                var medico = await _medicoRepository.GetById(id);
+                if (medico == null) return null;
+
+                var resultado = _mapper.Map<MedicoDTO>(medico);
+
+                return resultado;
             }
             catch (Exception ex)
             {
@@ -42,11 +50,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task<Medico> AddAsync(Medico medico)
+        public async Task<MedicoDTO> AddAsync(MedicoDTO medico)
         {
             try
             {
-                var adicionarMedico = await _medicoRepository.AddAsync(medico);
+                var adicionarMedico = _mapper.Map<Medico>(medico);
+
+                var adicionarMedicoDTO = await _medicoRepository.AddAsync(adicionarMedico);
+
                 return null;
             }
             catch (Exception ex)
@@ -55,16 +66,18 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task UpdateAsync(Medico medico)
+        public async Task<MedicoUpdateDTO> UpdateAsync(Guid id, MedicoUpdateDTO medico)
         {
             try
             {
-                var buscaMedico = await _medicoRepository.GetById(medico.Id);
+                var buscaMedico = await _medicoRepository.GetById(id);
                 if (buscaMedico == null) throw new Exception("Médico para atualizar não encontrado.");
 
-                medico.Id = buscaMedico.Id;
+                _mapper.Map(medico, buscaMedico);
 
-                await _medicoRepository.UpdateAsync(medico);
+                await _medicoRepository.UpdateAsync(buscaMedico);
+
+                return _mapper.Map<MedicoUpdateDTO>(buscaMedico);
             }
             catch (Exception ex)
             {
