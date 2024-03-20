@@ -55,7 +55,6 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var adicionarMedico = _mapper.Map<Medico>(medico);
-
                 var adicionarMedicoDTO = await _medicoRepository.AddAsync(adicionarMedico);
 
                 return null;
