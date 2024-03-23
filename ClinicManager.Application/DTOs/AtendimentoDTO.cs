@@ -4,10 +4,6 @@ namespace ClinicManager.Application.DTOs
 {
     public class AtendimentoDTO
     {
-        public Guid IdPaciente { get; set; }
-        public Guid IdServico { get; set; }
-        public Guid IdMedico { get; set; }
-
         public PacienteDTO? Paciente { get; set; }
         public ServicoDTO? Servico { get; set; }
         public MedicoDTO? Medico { get; set; }
