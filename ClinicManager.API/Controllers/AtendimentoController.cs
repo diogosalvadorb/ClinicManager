@@ -11,9 +11,11 @@ namespace ClinicManager.API.Controllers
     public class AtendimentoController : ControllerBase
     {
         private readonly IAtendimentoService _atendimentoService;
-        public AtendimentoController(IAtendimentoService atendimentoService)
+        private readonly IEmailService _emailService;
+        public AtendimentoController(IAtendimentoService atendimentoService, IEmailService emailService)
         {
             _atendimentoService = atendimentoService;
+            _emailService = emailService;
         }
 
         [HttpGet]
