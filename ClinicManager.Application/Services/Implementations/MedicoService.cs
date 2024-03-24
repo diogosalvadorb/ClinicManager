@@ -55,9 +55,11 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var adicionarMedico = _mapper.Map<Medico>(medico);
-                var adicionarMedicoDTO = await _medicoRepository.AddAsync(adicionarMedico);
+                var adicionarMedicoEntidade = await _medicoRepository.AddAsync(adicionarMedico);
 
-                return null;
+                var retornoMedicoDTO = _mapper.Map<MedicoDTO>(adicionarMedicoEntidade);
+
+                return retornoMedicoDTO;
             }
             catch (Exception ex)
             {

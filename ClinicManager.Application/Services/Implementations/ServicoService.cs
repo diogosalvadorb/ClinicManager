@@ -56,9 +56,11 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var adicionarServico = _mapper.Map<Servico>(servico);
-                var adicionarServicoDTO = await _servicoRepository.AddAsync(adicionarServico);
+                var adicionarServicoEntidade = await _servicoRepository.AddAsync(adicionarServico);
 
-                return null;
+                var retornoServicoDto = _mapper.Map<ServicoDTO>(adicionarServicoEntidade);
+
+                return retornoServicoDto;
             }
             catch (Exception ex)
             {

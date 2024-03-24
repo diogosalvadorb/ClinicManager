@@ -11,9 +11,11 @@ namespace ClinicManager.API.Controllers
     public class AtendimentoController : ControllerBase
     {
         private readonly IAtendimentoService _atendimentoService;
-        public AtendimentoController(IAtendimentoService atendimentoService)
+        private readonly IEmailService _emailService;
+        public AtendimentoController(IAtendimentoService atendimentoService, IEmailService emailService)
         {
             _atendimentoService = atendimentoService;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -49,7 +51,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] AtendimentoDTO atendimento)
+        public async Task<IActionResult> Post([FromBody] AtendimentoDTO atendimento)
         {
             try
             {
@@ -58,7 +60,7 @@ namespace ClinicManager.API.Controllers
                     return BadRequest();
                 }
 
-                var idNovoAtendimento = _atendimentoService.AddAsync(atendimento);
+                var idNovoAtendimento = await _atendimentoService.AddAsync(atendimento);
 
                 return CreatedAtAction(nameof(GetById), new { id = idNovoAtendimento }, atendimento);
             }

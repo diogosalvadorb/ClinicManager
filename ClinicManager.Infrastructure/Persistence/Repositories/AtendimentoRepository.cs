@@ -1,6 +1,5 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
-using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Persistence.Repositories
