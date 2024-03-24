@@ -41,12 +41,10 @@ namespace ClinicManager.Application.Services.Implementations
 
                 await smtpClient.SendMailAsync(mailMessage);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw new Exception(ex.Message);
             }
-            
         }
     }
 }

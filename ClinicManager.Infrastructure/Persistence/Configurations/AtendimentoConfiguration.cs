@@ -12,21 +12,18 @@ namespace ClinicManager.Infrastructure.Persistence.Configurations
 
             builder
                 .HasOne(p => p.Paciente)
-                .WithOne()
-                .HasForeignKey<Atendimento>(x => x.IdPaciente)
-                .OnDelete(DeleteBehavior.Restrict); ;
+                .WithMany()
+                .HasForeignKey(x => x.IdPaciente);
 
             builder
                  .HasOne(s => s.Servico)
-                 .WithOne()
-                 .HasForeignKey<Atendimento>(x => x.IdServico)
-                 .OnDelete(DeleteBehavior.Restrict); ;
+                 .WithMany()
+                 .HasForeignKey(x => x.IdServico);
 
             builder
                 .HasOne(p => p.Medico)
-                .WithOne()
-                .HasForeignKey<Atendimento>(x => x.IdMedico)
-                .OnDelete(DeleteBehavior.Restrict); ;
+                .WithMany()
+                .HasForeignKey(x => x.IdMedico);
         }
     }
 }
