@@ -1,6 +1,5 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
-using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Persistence.Repositories
@@ -29,17 +28,9 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
 
         public async Task<Atendimento> AddAsync(Atendimento atendimento)
         {
-            try
-            {
-                await _context.Atendimentos.AddAsync(atendimento);
-                await _context.SaveChangesAsync();
-                return atendimento;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-
+            await _context.Atendimentos.AddAsync(atendimento);
+            await _context.SaveChangesAsync();
+            return atendimento;
         }
 
         public async Task UpdateAsync(Atendimento atendimento)

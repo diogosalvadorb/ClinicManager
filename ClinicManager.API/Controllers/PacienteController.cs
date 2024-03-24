@@ -80,7 +80,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PacienteDTO paciente)
+        public async Task<IActionResult> Post([FromBody] PacienteDTO paciente)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace ClinicManager.API.Controllers
                     return BadRequest();
                 }
 
-                var idNovoPaciente = _pacienteService.AddAsync(paciente);
+                var idNovoPaciente = await _pacienteService.AddAsync(paciente);
 
                 return CreatedAtAction(nameof(GetById), new { id = idNovoPaciente }, paciente);
             }

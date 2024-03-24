@@ -9,11 +9,14 @@ namespace ClinicManager.Application.Services.Implementations
     public class AtendimentoService : IAtendimentoService
     {
         private readonly IAtendimentoRepository _atendimentoRepository;
+        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
         public AtendimentoService(IAtendimentoRepository atendimentoRepository,
+                                  IEmailService emailService,     
                                   IMapper mapper)
         {
             _atendimentoRepository = atendimentoRepository;
+            _emailService = emailService;
             _mapper = mapper;
         }
 
@@ -57,15 +60,20 @@ namespace ClinicManager.Application.Services.Implementations
             {
                 var adicionarAtendimento = _mapper.Map<Atendimento>(atendimento);
 
-                var adicionarAtendimentoDTO = await _atendimentoRepository.AddAsync(adicionarAtendimento);
+                var adicionarAtendimentoEntidade = await _atendimentoRepository.AddAsync(adicionarAtendimento);
 
-                return null;
+                await _emailService.EnviarEmailAsync(adicionarAtendimento.IdPaciente);
+
+                var retornoAtendimentoDTO = _mapper.Map<AtendimentoDTO>(adicionarAtendimentoEntidade);
+
+                return retornoAtendimentoDTO;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
 
         public async Task<AtendimentoUpdateDTO> UpdateAsync(Guid id, AtendimentoUpdateDTO atendimento)
         {

@@ -1,4 +1,5 @@
 ﻿using ClinicManager.Application.Services.Interfaces;
+using ClinicManager.Core.Repositories;
 using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
@@ -8,23 +9,28 @@ namespace ClinicManager.Application.Services.Implementations
 {
     public class EmailService : IEmailService
     {
+        private readonly IPacienteRepository _pacienteRepository;
         private readonly int _port;
         private readonly string _host;
         private readonly string _emailSender;
         private readonly string _password;
-        public EmailService(IConfiguration configuration)
+        public EmailService(IConfiguration configuration,
+                            IPacienteRepository pacienteRepository)
         {
+            _pacienteRepository = pacienteRepository;
             _port = Convert.ToInt32(configuration["EmailConfiguration:Port"]);
             _host = configuration["EmailConfiguration:Host"];
             _emailSender = configuration["EmailConfiguration:From"];
             _password = configuration["EmailConfiguration:Password"];
         }
 
-        public async Task EnviarEmailAsync(string email)
+        public async Task EnviarEmailAsync(Guid idAtendimento)
         {
             try
             {
-                MailMessage mailMessage = new MailMessage(_emailSender, email);
+                string emailPaciente = _pacienteRepository.GetEmail(idAtendimento).Result;
+
+                MailMessage mailMessage = new MailMessage(_emailSender, emailPaciente);
 
                 mailMessage.Subject = "Confirmação de Agendamento";
                 mailMessage.IsBodyHtml = true;

@@ -1,6 +1,5 @@
 ﻿using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
-using ClinicManager.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicManager.Infrastructure.Persistence.Repositories
@@ -31,6 +30,13 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         public async Task<Paciente> GetByTelefone(string telefone)
         {
             return await _context.Pacientes.SingleOrDefaultAsync(x => x.Telefone == telefone);
+        }
+
+        public async Task<string> GetEmail(Guid id)
+        {
+            var emailPaciente = await _context.Pacientes.FirstOrDefaultAsync(x => x.Id == id);
+
+            return emailPaciente.Email;
         }
 
         public async Task<Paciente> AddAsync(Paciente paciente)
