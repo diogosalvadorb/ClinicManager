@@ -1,4 +1,6 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using AutoMapper;
+using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
 using Microsoft.AspNetCore.Http;
@@ -8,12 +10,15 @@ namespace ClinicManager.Application.Services.Implementations
     public class ArquivoService : IArquivoService
     {
         private readonly IArquivoRepository _arquivoRepository;
-        public ArquivoService(IArquivoRepository arquivoRepository)
+        private readonly IMapper _mapper;
+        public ArquivoService(IArquivoRepository arquivoRepository,
+                              IMapper mapper)
         {
             _arquivoRepository = arquivoRepository;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Arquivo>> UploadArquivo(ICollection<IFormFile> files)
+        public async Task<IEnumerable<ArquivoDTO>> UploadArquivo(ICollection<IFormFile> files)
         {
             try
             {
@@ -37,7 +42,9 @@ namespace ClinicManager.Application.Services.Implementations
                     }
                 }
 
-                return arquivos;
+                var arquivosDTO = _mapper.Map<IEnumerable<ArquivoDTO>>(arquivos);
+
+                return arquivosDTO;
             }
             catch (Exception ex)
             {
@@ -45,14 +52,34 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-
-        public async Task<Arquivo> DownloadArquivo(Guid id)
+        public async Task<ArquivoDTO> DownloadArquivo(Guid id)
         {
             try
             {
                 var arquivo = await _arquivoRepository.GetById(id);
 
-                return arquivo;
+                var resultado = _mapper.Map<ArquivoDTO>(arquivo);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<ArquivoUpdateDTO> UpdateAsync(Guid id, ArquivoUpdateDTO arquivo)
+        {
+            try
+            {
+                var buscaArquivo = await _arquivoRepository.GetById(id);
+                if(buscaArquivo == null) throw new Exception("Arquivo para atualizar não encontrado.");
+
+                _mapper.Map(arquivo, buscaArquivo);
+
+                await _arquivoRepository.UpdateAsync(buscaArquivo);
+
+                return _mapper.Map<ArquivoUpdateDTO>(buscaArquivo);
             }
             catch (Exception ex)
             {

@@ -24,9 +24,15 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
             return await _context.Arquivos.SingleOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task UpdateAsync(Arquivo arquivo)
+        public async Task UpdateAsync(Arquivo arquivo)
         {
-            throw new NotImplementedException();
+            var retornoArquivo = await _context.Arquivos.FindAsync(arquivo.Id);
+            if(retornoArquivo == null)
+                throw new ArgumentException("Arquivo para atualizar não encontrado.");
+
+            _context.Entry(retornoArquivo).CurrentValues.SetValues(arquivo);
+
+            await _context.SaveChangesAsync();
         }
 
         public async Task RemoverAsync(Guid id)

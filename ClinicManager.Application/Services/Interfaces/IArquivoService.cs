@@ -1,13 +1,13 @@
-﻿using ClinicManager.Core.Entities;
+﻿using ClinicManager.Application.DTOs;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.Application.Services.Interfaces
 {
     public interface IArquivoService
     {
-        Task<IEnumerable<Arquivo>> UploadArquivo(ICollection<IFormFile> files);
-        Task<Arquivo> DownloadArquivo(Guid id);
+        Task<IEnumerable<ArquivoDTO>> UploadArquivo(ICollection<IFormFile> files);
+        Task<ArquivoDTO> DownloadArquivo(Guid id);
+        Task<ArquivoUpdateDTO> UpdateAsync(Guid id, ArquivoUpdateDTO arquivo);
         Task RemoveAsync(Guid id);
     }
 }

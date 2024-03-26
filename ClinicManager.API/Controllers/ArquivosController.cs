@@ -1,4 +1,6 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using ClinicManager.Application.DTOs;
+using ClinicManager.Application.Services.Implementations;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -46,6 +48,27 @@ namespace ClinicManager.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     $"Erro durante o download do arquivo: {ex.Message}");
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] ArquivoUpdateDTO arquivo)
+        {
+            try
+            {
+                if (arquivo == null)
+                {
+                    return BadRequest();
+                }
+
+                var medicoAtualizado = await _arquivoService.UpdateAsync(id, arquivo);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar atualizar Arquivo. Erro: {ex.Message}");
             }
         }
 
