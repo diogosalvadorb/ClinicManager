@@ -58,6 +58,21 @@ namespace ClinicManager.Application.Services.Implementations
             {
                 throw new Exception(ex.Message);
             }
-        }  
+        }
+
+        public async Task RemoveAsync(Guid id)
+        {
+            try
+            {
+                var arquivo = await _arquivoRepository.GetById(id);
+                if (arquivo == null) throw new Exception("Arquivo para remover não encontrado.");
+
+                await _arquivoRepository.RemoverAsync(arquivo.Id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

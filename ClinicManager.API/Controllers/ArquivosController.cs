@@ -48,5 +48,21 @@ namespace ClinicManager.API.Controllers
                     $"Erro durante o download do arquivo: {ex.Message}");
             }
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            try
+            {
+                await _arquivoService.RemoveAsync(id);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Erro ao tentar remover Arquivo. Erro: {ex.Message}");
+            }
+        }
     }
 }

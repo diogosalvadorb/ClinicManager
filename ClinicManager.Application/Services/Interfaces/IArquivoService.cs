@@ -8,5 +8,6 @@ namespace ClinicManager.Application.Services.Interfaces
     {
         Task<IEnumerable<Arquivo>> UploadArquivo(ICollection<IFormFile> files);
         Task<Arquivo> DownloadArquivo(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

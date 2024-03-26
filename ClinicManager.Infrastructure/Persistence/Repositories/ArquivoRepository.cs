@@ -29,9 +29,17 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
             throw new NotImplementedException();
         }
 
-        public Task DeleteAsync(Guid id)
+        public async Task RemoverAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var retornoArquivo = await _context.Arquivos.FindAsync(id);
+
+            if (retornoArquivo == null)
+            {
+                throw new ArgumentException($"Arquivo não encontrado");
+            }
+
+            _context.Arquivos.Remove(retornoArquivo);
+            await _context.SaveChangesAsync();
         }
     }
 }

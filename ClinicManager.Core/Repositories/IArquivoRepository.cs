@@ -7,6 +7,6 @@ namespace ClinicManager.Core.Repositories
         Task<Arquivo> AddAsync(Arquivo arquivo);
         Task<Arquivo> GetById(Guid id);
         Task UpdateAsync(Arquivo arquivo);
-        Task DeleteAsync(Guid id);
+        Task RemoverAsync(Guid id);
     }
 }
