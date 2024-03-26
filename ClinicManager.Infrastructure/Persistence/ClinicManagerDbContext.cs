@@ -12,6 +12,7 @@ namespace ClinicManager.Infrastructure.Persistence
         public DbSet<Medico> Medicos { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Servico> Servicos { get; set; }
+        public DbSet<Arquivo> Arquivos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -15,6 +15,8 @@ namespace ClinicManager.Application.Helpers
             CreateMap<Medico, MedicoUpdateDTO>().ReverseMap();
             CreateMap<Paciente, PacienteDTO>().ReverseMap();
             CreateMap<Servico, ServicoDTO>().ReverseMap();
+            CreateMap<Arquivo, ArquivoDTO>().ReverseMap();
+            CreateMap<Arquivo, ArquivoUpdateDTO>().ReverseMap();
             CreateMap<ETipoAtendimento, ETipoAtendimentoDTO>().ReverseMap();
         }
     }
