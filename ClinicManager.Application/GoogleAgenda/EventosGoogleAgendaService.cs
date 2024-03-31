@@ -98,5 +98,92 @@ namespace ClinicManager.Application.GoogleCalendary
                 throw new Exception(ex.Message);
             }
         }
+
+        public static async Task<IList<Event>> GetEventsGoogleCalendar()
+        {
+            try
+            {
+                string[] scopes = { $"https://www.googleapis.com/calendar/v3/calendars/{CALENDAR_ID}/events" };
+                var services = await ConnectGoogleAgenda(scopes);
+
+                var events = services.Events.List(CALENDAR_ID).Execute();
+
+                return events.Items;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<Event> GetEventGoogleCalendar(string eventId)
+        {
+            try
+            {
+                string[] scopes = { $"https://www.googleapis.com/calendar/v3/calendars/{CALENDAR_ID}/events" };
+                var services = await ConnectGoogleAgenda(scopes);
+
+                var events = await services.Events.Get(CALENDAR_ID, eventId).ExecuteAsync();
+
+                return events;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<string> DeleteEventGoogleCalendar(string eventId)
+        {
+            try
+            {
+                string[] scopes = { $"https://www.googleapis.com/calendar/v3/calendars/{CALENDAR_ID}/events/{eventId}" };
+                var services = await ConnectGoogleAgenda(scopes);
+
+                var events = await services.Events.Delete(CALENDAR_ID, eventId).ExecuteAsync();
+
+                return events;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public static async Task<Event> UpdateEventGoogleCalendar(string eventId)
+        {
+            try
+            {
+                string[] scopes = { $"https://www.googleapis.com/calendar/v3/calendars/{CALENDAR_ID}/events/{eventId}" };
+                var services = await ConnectGoogleAgenda(scopes);
+
+                Event eventCalendar = new Event()
+                {
+                    Summary = "Atualizando",
+                    Location = "São Paulo",
+                    Start = new EventDateTime
+                    {
+                        DateTime = DateTime.Parse("2023-03-25T00:49:18.227Z"),
+                        TimeZone = "(UTC-03:00) Brasília"
+                    },
+                    End = new EventDateTime
+                    {
+                        DateTime = DateTime.Parse("2023-03-25T00:49:18.227Z"),
+                        TimeZone = "(UTC-03:00) Brasília"
+                    },
+                    Description = "Descrição do evento atualizado",
+
+                };
+
+                var events = await services.Events.Update(eventCalendar, CALENDAR_ID, eventId).ExecuteAsync();
+
+                return events;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
+
