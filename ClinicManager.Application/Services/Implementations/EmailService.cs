@@ -24,7 +24,7 @@ namespace ClinicManager.Application.Services.Implementations
             _password = configuration["EmailConfiguration:Password"];
         }
 
-        public async Task EnviarEmailAsync(Guid idAtendimento)
+        public async Task SendEmailAsync(Guid idAtendimento)
         {
             try
             {

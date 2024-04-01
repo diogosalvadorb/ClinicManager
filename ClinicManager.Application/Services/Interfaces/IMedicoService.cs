@@ -9,6 +9,6 @@ namespace ClinicManager.Application.Services.Interfaces
         Task<MedicoDTO> GetById(Guid id);
         Task<MedicoDTO> AddAsync(MedicoDTO medico);
         Task<MedicoUpdateDTO> UpdateAsync(Guid id, MedicoUpdateDTO medico);
-        Task RemoverAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

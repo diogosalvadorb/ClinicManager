@@ -22,7 +22,7 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var servicos = await _servicoRepository.GetAll();
-                if (servicos == null) return null;
+                if (servicos == null) return Enumerable.Empty<ServicoDTO>(); ;
 
                 var resultado = _mapper.Map<IEnumerable<ServicoDTO>>(servicos);
 
@@ -87,14 +87,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             try
             {
                 var servico = await _servicoRepository.GetById(id);
                 if (servico == null) throw new Exception("Serviço para remover não encontrado.");
 
-                await _servicoRepository.RemoverAsync(servico.Id);
+                await _servicoRepository.RemoveAsync(servico.Id);
             }
             catch (Exception ex)
             {

@@ -21,7 +21,7 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var medicos = await _medicoRepository.GetAll();
-                if (medicos == null) return null;
+                if (medicos == null) return Enumerable.Empty<MedicoDTO>();
 
                 var resultado = _mapper.Map<IEnumerable<MedicoDTO>>(medicos);
 
@@ -86,14 +86,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             try
             {
                 var medico = await _medicoRepository.GetById(id);
                 if (medico == null) throw new Exception("Médico para remover não encontrado.");
 
-                await _medicoRepository.RemoverAsync(medico.Id);
+                await _medicoRepository.RemoveAsync(medico.Id);
             }
             catch (Exception ex)
             {

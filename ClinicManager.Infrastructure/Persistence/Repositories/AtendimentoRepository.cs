@@ -30,6 +30,7 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         {
             await _context.Atendimentos.AddAsync(atendimento);
             await _context.SaveChangesAsync();
+
             return atendimento;
         }
 
@@ -38,22 +39,18 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
             var retornoAtendimento = await _context.Atendimentos.FindAsync(atendimento.Id);
 
             if (retornoAtendimento == null)
-            {
                 throw new ArgumentException($"Serviço não encontrado");
-            }
 
             _context.Entry(retornoAtendimento).CurrentValues.SetValues(atendimento);
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var retornoAtendimento = await _context.Atendimentos.FindAsync(id);
 
             if (retornoAtendimento == null)
-            {
                 throw new ArgumentException($"Serviço não encontrado");
-            }
 
             _context.Atendimentos.Remove(retornoAtendimento);
             await _context.SaveChangesAsync();

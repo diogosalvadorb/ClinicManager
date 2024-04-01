@@ -43,6 +43,7 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         {
             await _context.Pacientes.AddAsync(paciente);
             await _context.SaveChangesAsync();
+
             return paciente;
         }
 
@@ -56,14 +57,12 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var retornoPaciente = await _context.Pacientes.FindAsync(id);
 
             if (retornoPaciente == null)
-            {
                 throw new ArgumentException($"Paciente não encontrado");
-            }
 
             _context.Pacientes.Remove(retornoPaciente);
             await _context.SaveChangesAsync();

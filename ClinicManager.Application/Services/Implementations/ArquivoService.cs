@@ -94,7 +94,7 @@ namespace ClinicManager.Application.Services.Implementations
                 var arquivo = await _arquivoRepository.GetById(id);
                 if (arquivo == null) throw new Exception("Arquivo para remover não encontrado.");
 
-                await _arquivoRepository.RemoverAsync(arquivo.Id);
+                await _arquivoRepository.RemoveAsync(arquivo.Id);
             }
             catch (Exception ex)
             {

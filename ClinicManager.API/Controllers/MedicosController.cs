@@ -96,7 +96,7 @@ namespace ClinicManager.API.Controllers
         {
             try
             {
-                await _medicoService.RemoverAsync(id);
+                await _medicoService.RemoveAsync(id);
 
                 return NoContent();
             }

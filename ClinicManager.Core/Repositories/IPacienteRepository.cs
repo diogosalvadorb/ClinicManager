@@ -11,6 +11,6 @@ namespace ClinicManager.Core.Repositories
         Task<Paciente> AddAsync(Paciente paciente);
         Task<string> GetEmail(Guid id);
         Task UpdateAsync(Paciente paciente);
-        Task RemoverAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

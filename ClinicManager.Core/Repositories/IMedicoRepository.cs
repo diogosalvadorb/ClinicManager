@@ -8,6 +8,6 @@ namespace ClinicManager.Core.Repositories
         Task<Medico> GetById(Guid id);
         Task<Medico> AddAsync(Medico medico);
         Task UpdateAsync(Medico medico);
-        Task RemoverAsync(Guid id);
+        Task RemoveAsync(Guid id);
     }
 }

@@ -25,7 +25,7 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var atendimentos = await _atendimentoRepository.GetAll();
-                if (atendimentos == null) return null;
+                if (atendimentos == null) Enumerable.Empty<AtendimentoDTO>();
 
                 var resultado = _mapper.Map<IEnumerable<AtendimentoDTO>>(atendimentos);
 
@@ -42,7 +42,7 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var atendimento = await _atendimentoRepository.GetById(id);
-                if (atendimento == null) return null;
+                if (atendimento == null) return new AtendimentoDTO();
 
                 var resultado = _mapper.Map<AtendimentoDTO>(atendimento);
 
@@ -62,7 +62,7 @@ namespace ClinicManager.Application.Services.Implementations
 
                 var adicionarAtendimentoEntidade = await _atendimentoRepository.AddAsync(adicionarAtendimento);
 
-                await _emailService.EnviarEmailAsync(adicionarAtendimento.IdPaciente);
+                await _emailService.SendEmailAsync(adicionarAtendimento.IdPaciente);
 
                 var retornoAtendimentoDTO = _mapper.Map<AtendimentoDTO>(adicionarAtendimentoEntidade);
 
@@ -94,14 +94,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             try
             {
                 var buscaAtendimento = _atendimentoRepository.GetById(id);
                 if (buscaAtendimento == null) throw new Exception("Atendimento para remover não encontrado.");
 
-                await _atendimentoRepository.RemoverAsync(id);
+                await _atendimentoRepository.RemoveAsync(id);
             }
             catch (Exception ex)
             {

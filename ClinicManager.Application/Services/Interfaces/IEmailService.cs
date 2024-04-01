@@ -2,6 +2,6 @@
 {
     public interface IEmailService
     {
-        Task EnviarEmailAsync(Guid idAtendimento);
+        Task SendEmailAsync(Guid idAtendimento);
     }
 }

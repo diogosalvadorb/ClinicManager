@@ -3,6 +3,7 @@ using ClinicManager.Application.DTOs;
 using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.Application.Services.Implementations
 {
@@ -22,7 +23,7 @@ namespace ClinicManager.Application.Services.Implementations
             try
             {
                 var pacientes = await _pacienteRepository.GetAll();
-                if (pacientes == null) return null;
+                if (pacientes == null) return Enumerable.Empty<PacienteDTO>();
 
                 var resultado = _mapper.Map<IEnumerable<PacienteDTO>>(pacientes);
 
@@ -121,14 +122,14 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             try
             {
                 var buscaPaciente = _pacienteRepository.GetById(id);
                 if(buscaPaciente == null) throw new Exception("Paciente para remover não encontrado.");
 
-                await _pacienteRepository.RemoverAsync(id);
+                await _pacienteRepository.RemoveAsync(id);
             }
             catch (Exception ex)
             {

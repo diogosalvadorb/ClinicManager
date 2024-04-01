@@ -16,6 +16,7 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         {
             await _context.Arquivos.AddAsync(arquivo);
             await _context.SaveChangesAsync();
+
             return arquivo;
         }
 
@@ -31,18 +32,15 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
                 throw new ArgumentException("Arquivo para atualizar não encontrado.");
 
             _context.Entry(retornoArquivo).CurrentValues.SetValues(arquivo);
-
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var retornoArquivo = await _context.Arquivos.FindAsync(id);
 
             if (retornoArquivo == null)
-            {
                 throw new ArgumentException($"Arquivo não encontrado");
-            }
 
             _context.Arquivos.Remove(retornoArquivo);
             await _context.SaveChangesAsync();

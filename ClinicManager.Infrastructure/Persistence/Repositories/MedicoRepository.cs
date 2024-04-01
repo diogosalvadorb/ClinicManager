@@ -26,28 +26,27 @@ namespace ClinicManager.Infrastructure.Persistence.Repositories
         {
             await _context.Medicos.AddAsync(medico);
             await _context.SaveChangesAsync();
+
             return medico;
         }
 
         public async Task UpdateAsync(Medico medico)
         {
             var retornoMedico = await _context.Medicos.FindAsync(medico.Id);
+
             if (retornoMedico == null)
                 throw new ArgumentException("Médico para atualizar não encontrado.");
 
             _context.Entry(retornoMedico).CurrentValues.SetValues(medico);
-
             await _context.SaveChangesAsync();
         }
 
-        public async Task RemoverAsync(Guid id)
+        public async Task RemoveAsync(Guid id)
         {
             var retornoMedico = await _context.Medicos.FindAsync(id);
 
             if (retornoMedico == null)
-            {
                 throw new ArgumentException($"Médico não encontrado");
-            }
 
             _context.Medicos.Remove(retornoMedico);
             await _context.SaveChangesAsync();
