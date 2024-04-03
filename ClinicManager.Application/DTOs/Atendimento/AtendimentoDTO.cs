@@ -1,6 +1,6 @@
 ﻿using ClinicManager.Application.DTOs.Enum;
 
-namespace ClinicManager.Application.DTOs
+namespace ClinicManager.Application.DTOs.Atendimento
 {
     public class AtendimentoDTO
     {

@@ -1,4 +1,4 @@
-﻿namespace ClinicManager.Application.DTOs
+﻿namespace ClinicManager.Application.DTOs.Arquivo
 {
     public class ArquivoDTO
     {

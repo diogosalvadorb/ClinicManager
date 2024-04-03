@@ -1,4 +1,4 @@
-﻿namespace ClinicManager.Application.DTOs
+﻿namespace ClinicManager.Application.DTOs.Paciente
 {
     public class PacienteUpdateDTO
     {

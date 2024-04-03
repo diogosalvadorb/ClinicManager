@@ -1,4 +1,4 @@
-﻿using ClinicManager.Application.DTOs;
+﻿using ClinicManager.Application.DTOs.Paciente;
 using ClinicManager.Core.Entities;
 
 namespace ClinicManager.Application.Services.Interfaces

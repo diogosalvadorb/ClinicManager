@@ -1,4 +1,4 @@
-﻿using ClinicManager.Application.DTOs;
+﻿using ClinicManager.Application.DTOs.Arquivo;
 using Microsoft.AspNetCore.Http;
 
 namespace ClinicManager.Application.Services.Interfaces

@@ -1,6 +1,6 @@
-﻿namespace ClinicManager.Application.DTOs
+﻿namespace ClinicManager.Application.DTOs.Medico
 {
-    public class MedicoUpdateDTO
+    public class MedicoDTO
     {
         public string Nome { get; set; } = string.Empty;
         public string SobreNome { get; set; } = string.Empty;

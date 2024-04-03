@@ -1,4 +1,4 @@
-﻿using ClinicManager.Application.DTOs;
+﻿using ClinicManager.Application.DTOs.Arquivo;
 using ClinicManager.Application.Services.Implementations;
 using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
@@ -73,7 +73,7 @@ namespace ClinicManager.API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Remove(Guid id)
         {
             try
             {

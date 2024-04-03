@@ -1,11 +1,14 @@
 ﻿using ClinicManager.Application.DTOs.Enum;
+using ClinicManager.Application.DTOs.Medico;
+using ClinicManager.Application.DTOs.Paciente;
+using ClinicManager.Application.DTOs.Servico;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ClinicManager.Application.DTOs
+namespace ClinicManager.Application.DTOs.Atendimento
 {
     public class AtendimentoUpdateDTO
     {

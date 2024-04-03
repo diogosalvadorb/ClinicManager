@@ -1,4 +1,4 @@
-﻿namespace ClinicManager.Application.DTOs
+﻿namespace ClinicManager.Application.DTOs.Servico
 {
     public class ServicoUpdateDTO
     {

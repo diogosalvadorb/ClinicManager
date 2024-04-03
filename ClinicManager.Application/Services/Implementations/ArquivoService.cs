@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using ClinicManager.Application.DTOs;
+using ClinicManager.Application.DTOs.Arquivo;
 using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
