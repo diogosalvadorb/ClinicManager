@@ -47,6 +47,7 @@ builder.Services.AddScoped<IPacienteService, PacienteService>();
 builder.Services.AddScoped<IServicoService, ServicoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IArquivoService, ArquivoService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 //Repository
 builder.Services.AddScoped<IAtendimentoRepository, AtendimentoRepository>();
