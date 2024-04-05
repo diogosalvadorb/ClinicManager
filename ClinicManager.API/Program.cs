@@ -48,6 +48,7 @@ builder.Services.AddScoped<IServicoService, ServicoService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IArquivoService, ArquivoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 
 //Repository
 builder.Services.AddScoped<IAtendimentoRepository, AtendimentoRepository>();
@@ -55,6 +56,7 @@ builder.Services.AddScoped<IMedicoRepository, MedicoRepository>();
 builder.Services.AddScoped<IPacienteRepository, PacienteRepository>();
 builder.Services.AddScoped<IServicoRepository, ServicoRepository>();
 builder.Services.AddScoped<IArquivoRepository, ArquivoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 var app = builder.Build();
 

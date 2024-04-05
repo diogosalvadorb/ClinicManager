@@ -1,6 +1,5 @@
 ﻿using ClinicManager.Application.DTOs.Servico;
 using ClinicManager.Application.Services.Interfaces;
-using ClinicManager.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers

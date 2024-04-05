@@ -1,5 +1,4 @@
 ﻿using ClinicManager.Application.DTOs.Atendimento;
-using ClinicManager.Core.Entities;
 
 namespace ClinicManager.Application.Services.Interfaces
 {

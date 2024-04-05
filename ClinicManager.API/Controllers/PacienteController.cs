@@ -1,8 +1,5 @@
 ﻿using ClinicManager.Application.DTOs.Paciente;
-using ClinicManager.Application.Services.Implementations;
 using ClinicManager.Application.Services.Interfaces;
-using ClinicManager.Core.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers

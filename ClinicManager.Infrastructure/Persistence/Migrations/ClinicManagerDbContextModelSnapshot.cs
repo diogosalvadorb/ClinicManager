@@ -207,40 +207,36 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.ToTable("Servicos");
                 });
 
-            modelBuilder.Entity("ClinicManager.Core.Entities.User", b =>
+            modelBuilder.Entity("ClinicManager.Core.Entities.Usuario", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("Active")
+                    b.Property<bool>("Ativo")
                         .HasColumnType("bit");
+
+                    b.Property<Guid>("IdMedico")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("IdPaciente")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Login")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("MedicoId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("PacienteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("Perfil")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
+                    b.Property<string>("Senha")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicoId");
-
-                    b.HasIndex("PacienteId");
-
-                    b.ToTable("Users");
+                    b.ToTable("Usuarios");
                 });
 
             modelBuilder.Entity("ClinicManager.Core.Entities.Atendimento", b =>
@@ -268,21 +264,6 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                     b.Navigation("Paciente");
 
                     b.Navigation("Servico");
-                });
-
-            modelBuilder.Entity("ClinicManager.Core.Entities.User", b =>
-                {
-                    b.HasOne("ClinicManager.Core.Entities.Medico", "Medico")
-                        .WithMany()
-                        .HasForeignKey("MedicoId");
-
-                    b.HasOne("ClinicManager.Core.Entities.Paciente", "Paciente")
-                        .WithMany()
-                        .HasForeignKey("PacienteId");
-
-                    b.Navigation("Medico");
-
-                    b.Navigation("Paciente");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,7 +3,6 @@ using ClinicManager.Application.DTOs.Paciente;
 using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Repositories;
-using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.Application.Services.Implementations
 {
