@@ -1,12 +1,13 @@
 ﻿using ClinicManager.Application.GoogleCalendary;
 using ClinicManager.Core.Entities;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class GoogleAgendaController : ControllerBase
     {
         [HttpPost("Create")]

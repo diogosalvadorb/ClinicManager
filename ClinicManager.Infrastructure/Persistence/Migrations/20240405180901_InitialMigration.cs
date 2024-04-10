@@ -10,6 +10,20 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Arquivos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    NomeArquivo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TipoConteudo = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Arquivos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Medicos",
                 columns: table => new
                 {
@@ -67,6 +81,23 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Usuarios",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Login = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Senha = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Ativo = table.Column<bool>(type: "bit", nullable: false),
+                    Perfil = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IdPaciente = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IdMedico = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Usuarios", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Atendimentos",
                 columns: table => new
                 {
@@ -87,44 +118,47 @@ namespace ClinicManager.Infrastructure.Persistence.Migrations
                         column: x => x.IdMedico,
                         principalTable: "Medicos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Atendimentos_Pacientes_IdPaciente",
                         column: x => x.IdPaciente,
                         principalTable: "Pacientes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Atendimentos_Servicos_IdServico",
                         column: x => x.IdServico,
                         principalTable: "Servicos",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Atendimentos_IdMedico",
                 table: "Atendimentos",
-                column: "IdMedico",
-                unique: true);
+                column: "IdMedico");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Atendimentos_IdPaciente",
                 table: "Atendimentos",
-                column: "IdPaciente",
-                unique: true);
+                column: "IdPaciente");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Atendimentos_IdServico",
                 table: "Atendimentos",
-                column: "IdServico",
-                unique: true);
+                column: "IdServico");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Arquivos");
+
+            migrationBuilder.DropTable(
                 name: "Atendimentos");
+
+            migrationBuilder.DropTable(
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
                 name: "Medicos");
