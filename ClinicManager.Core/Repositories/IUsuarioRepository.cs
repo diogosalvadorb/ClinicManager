@@ -6,5 +6,6 @@ namespace ClinicManager.Core.Repositories
     {
         Task<Usuario> GetById(Guid id);
         Task<Usuario> GetUsuarioByLoginAndSenhaAsync(string login, string hashSenha);
+        Task<Usuario> AddAsync(Usuario usuario);
     }
 }

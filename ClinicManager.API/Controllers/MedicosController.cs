@@ -1,11 +1,13 @@
 ﻿using ClinicManager.Application.DTOs.Medico;
 using ClinicManager.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class MedicosController : ControllerBase
     {
         private readonly IMedicoService _medicoService;

@@ -1,5 +1,9 @@
-﻿using ClinicManager.Application.Services.Interfaces;
+﻿using AutoMapper;
+using ClinicManager.Application.DTOs.Atendimento;
+using ClinicManager.Application.DTOs.Usuario;
+using ClinicManager.Application.Services.Interfaces;
 using ClinicManager.Core.Entities;
+using ClinicManager.Core.Repositories;
 using ClinicManager.Infrastructure.Persistence;
 using ClinicManager.Infrastructure.Persistence.Repositories;
 
@@ -8,28 +12,30 @@ namespace ClinicManager.Application.Services.Implementations
     public class UsuarioService : IUsuarioService
     {
         private readonly IAuthService _authService;
-        private readonly UsuarioRepository _usuarioRepository;
-        private readonly ClinicManagerDbContext _context;
-
-        public UsuarioService(IAuthService authService, UsuarioRepository usuarioRepository, ClinicManagerDbContext context)
+        private readonly IUsuarioRepository _usuarioRepository; 
+        private readonly IMapper _mapper;
+        public UsuarioService(IAuthService authService, IUsuarioRepository usuarioRepository, ClinicManagerDbContext context, IMapper mapper)
         {
             _authService = authService;
             _usuarioRepository = usuarioRepository;
-            _context = context;
+            _mapper = mapper;
         }
 
-        public async Task<Usuario> AddAsync(Usuario user)
+        public async Task<UsuarioDTO> AddAsync(UsuarioDTO usuario)
         {
             try
             {
-                var hashSenha = _authService.ComputeSha256Hash(user.Senha);
+                var hashSenha = _authService.ComputeSha256Hash(usuario.Senha);
 
-                var novoUsuario = new Usuario(user.Login, hashSenha, user.Ativo, user.Perfil);
+                var adicionarUsuario = _mapper.Map<Usuario>(usuario);
 
-                await _context.Usuarios.AddAsync(novoUsuario);
-                await _context.SaveChangesAsync();
+                adicionarUsuario.Senha = hashSenha;
 
-                return user;
+                var adicionarUsuarioEntiadde = await _usuarioRepository.AddAsync(adicionarUsuario);
+
+                var retornoUsuarioDTO = _mapper.Map<UsuarioDTO>(adicionarUsuario);
+
+                return retornoUsuarioDTO;
             }
             catch (Exception ex)
             {
@@ -37,14 +43,35 @@ namespace ClinicManager.Application.Services.Implementations
             }
         }
 
-        public async Task<Usuario> GetById(Guid id)
+        public async Task<UsuarioDTO> GetById(Guid id)
         {
             try
             {
                 var usuario = await _usuarioRepository.GetById(id);
-                if (usuario == null) return null; 
+                if (usuario == null) return new UsuarioDTO();
 
-                return usuario;
+                var resultado = _mapper.Map<UsuarioDTO>(usuario);
+
+                return resultado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<UsuarioDTO> GetUsuarioByLoginAndSenhaAsync(string login, string senha)
+        {
+            try
+            {
+                var hashSenha = _authService.ComputeSha256Hash(senha);
+
+                var usuario = await _usuarioRepository.GetUsuarioByLoginAndSenhaAsync(login, hashSenha);
+                if (usuario == null) return null;
+
+                var usuarioDTO = _mapper.Map<UsuarioDTO>(usuario);
+
+                return usuarioDTO;
             }
             catch (Exception ex)
             {

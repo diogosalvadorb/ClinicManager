@@ -5,6 +5,7 @@ using ClinicManager.Application.DTOs.Enum;
 using ClinicManager.Application.DTOs.Medico;
 using ClinicManager.Application.DTOs.Paciente;
 using ClinicManager.Application.DTOs.Servico;
+using ClinicManager.Application.DTOs.Usuario;
 using ClinicManager.Core.Entities;
 using ClinicManager.Core.Enums;
 
@@ -28,6 +29,10 @@ namespace ClinicManager.Application.Helpers
 
             CreateMap<Arquivo, ArquivoDTO>().ReverseMap();
             CreateMap<Arquivo, ArquivoUpdateDTO>().ReverseMap();
+
+            CreateMap<Usuario, LoginDTO>().ReverseMap();
+            CreateMap<Usuario, UsuarioDTO>().ReverseMap();
+
             CreateMap<ETipoAtendimento, ETipoAtendimentoDTO>().ReverseMap();
         }
     }

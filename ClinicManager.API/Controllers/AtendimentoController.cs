@@ -1,11 +1,13 @@
 ﻿using ClinicManager.Application.DTOs.Atendimento;
 using ClinicManager.Application.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClinicManager.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AtendimentoController : ControllerBase
     {
         private readonly IAtendimentoService _atendimentoService;
